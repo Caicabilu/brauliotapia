@@ -47,11 +47,23 @@ if (contactForm) {
         formMessage.className = 'form-message';
         formMessage.style.display = 'none';
 
+        // Get reCAPTCHA response
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+            formMessage.textContent = 'Por favor, completa el captcha.';
+            formMessage.className = 'form-message error';
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+            submitBtn.disabled = false;
+            return;
+        }
+
         const formData = {
             name: contactForm.name.value,
             email: contactForm.email.value,
             subject: contactForm.subject.value,
-            message: contactForm.message.value
+            message: contactForm.message.value,
+            recaptchaToken: recaptchaResponse
         };
 
         try {
@@ -69,6 +81,7 @@ if (contactForm) {
                 formMessage.textContent = '¡Mensaje enviado correctamente! Te responderé pronto.';
                 formMessage.className = 'form-message success';
                 contactForm.reset();
+                grecaptcha.reset();
             } else {
                 throw new Error(result.error || 'Error al enviar el mensaje');
             }

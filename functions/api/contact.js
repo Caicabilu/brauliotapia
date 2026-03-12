@@ -9,12 +9,34 @@ export async function onRequestPost(context) {
     };
 
     try {
-        const { name, email, subject, message } = await request.json();
+        const { name, email, subject, message, recaptchaToken } = await request.json();
 
         // Validate required fields
         if (!name || !email || !subject || !message) {
             return new Response(
                 JSON.stringify({ error: 'Todos los campos son requeridos' }),
+                { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+            );
+        }
+
+        // Verify reCAPTCHA
+        if (!recaptchaToken) {
+            return new Response(
+                JSON.stringify({ error: 'Por favor, completa el captcha' }),
+                { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+            );
+        }
+
+        const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `secret=${env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`
+        });
+
+        const recaptchaResult = await recaptchaResponse.json();
+        if (!recaptchaResult.success) {
+            return new Response(
+                JSON.stringify({ error: 'Verificación de captcha fallida' }),
                 { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
             );
         }
