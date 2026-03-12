@@ -598,6 +598,33 @@ h1 {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Copyright Watermark */
+.gallery-item::before {
+    content: 'BT.';
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    pointer-events: none;
+    letter-spacing: -1px;
+}
+
+/* Protective Overlay */
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 5;
 }
 
 .gallery-item:hover {
@@ -630,6 +657,35 @@ h1 {
     object-fit: contain;
     border-radius: 8px;
     animation: lightboxFadeIn 0.3s ease;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+/* Lightbox Watermark */
+.lightbox-watermark {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    letter-spacing: -2px;
+    z-index: 2001;
+}
+
+/* Copyright Notice */
+.gallery-copyright {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.gallery-copyright strong {
+    color: var(--primary);
 }
 
 @keyframes lightboxFadeIn {

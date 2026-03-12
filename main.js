@@ -148,4 +148,20 @@ if (lightbox) {
     });
 }
 
+// Disable right-click on gallery images
+document.querySelectorAll('.gallery-item, .lightbox-img').forEach(el => {
+    el.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        return false;
+    });
+});
+
+// Disable drag on gallery images
+document.querySelectorAll('.gallery-item img, .lightbox-img').forEach(img => {
+    img.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+        return false;
+    });
+});
+
 console.log("Wind & Clouds Portfolio Loaded - Braulio Tapia");
