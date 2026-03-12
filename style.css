@@ -354,9 +354,9 @@ h1 {
 
 .skills-track {
     display: flex;
-    width: calc(200px * 28);
-    /* 200px per card * 28 cards total (14 skills duplicated) */
-    animation: scroll 60s linear infinite;
+    width: calc(200px * 30);
+    /* 200px per card * 30 cards total (15 skills duplicated) */
+    animation: scroll 65s linear infinite;
 }
 
 @keyframes scroll {
@@ -365,10 +365,10 @@ h1 {
     }
 
     100% {
-        transform: translateX(calc(-200px * 14));
+        transform: translateX(calc(-200px * 15));
     }
 
-    /* Infinite loop at half-way point (14 skills) */
+    /* Infinite loop at half-way point (15 skills) */
 }
 
 .skill-card {
