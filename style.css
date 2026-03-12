@@ -831,6 +831,19 @@ h1 {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.recaptcha-container .g-recaptcha {
+    transform: scale(1);
+    transform-origin: center;
+}
+
+@media (max-width: 400px) {
+    .recaptcha-container .g-recaptcha {
+        transform: scale(0.85);
+        transform-origin: center;
+    }
 }
 
 .submit-btn {
