@@ -354,6 +354,41 @@
                     <h2 class="section-title">Contacto</h2>
                     <p class="contact-intro">¿Tienes un proyecto en mente? Me encantaría escucharte y ayudarte a hacerlo realidad.</p>
 
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <input type="text" id="name" name="name" required placeholder="Tu nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Asunto</label>
+                            <input type="text" id="subject" name="subject" required placeholder="¿En qué puedo ayudarte?">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Cuéntame sobre tu proyecto..."></textarea>
+                        </div>
+                        <button type="submit" class="btn primary submit-btn">
+                            <span class="btn-text">Enviar Mensaje</span>
+                            <span class="btn-loading" style="display: none;">
+                                <svg class="spinner" viewBox="0 0 24 24" width="20" height="20">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+                                </svg>
+                                Enviando...
+                            </span>
+                        </button>
+                        <div id="form-message" class="form-message"></div>
+                    </form>
+
+                    <div class="contact-divider">
+                        <span>o contáctame directamente</span>
+                    </div>
+
                     <div class="contact-methods">
                         <a href="mailto:contacto@brauliotapia.cl" class="contact-item glass">
                             <div class="contact-icon">
@@ -393,11 +428,6 @@
                                 <span class="contact-value">Escríbeme</span>
                             </div>
                         </a>
-                    </div>
-
-                    <div class="contact-cta">
-                        <p>¿Listo para empezar?</p>
-                        <a href="mailto:contacto@brauliotapia.cl" class="btn primary">Enviar Mensaje</a>
                     </div>
                 </div>
             </div>

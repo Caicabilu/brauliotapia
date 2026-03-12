@@ -618,13 +618,128 @@ h1 {
     color: var(--text-main);
 }
 
-.contact-cta {
-    margin-top: 30px;
+/* Contact Form */
+.contact-form {
+    max-width: 500px;
+    margin: 0 auto 40px;
+    text-align: left;
 }
 
-.contact-cta p {
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-outfit);
+    font-size: 1rem;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
     color: var(--text-muted);
-    margin-bottom: 15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 3px rgba(0, 163, 255, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.submit-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.form-message {
+    margin-top: 15px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+}
+
+.form-message.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.form-message.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.contact-divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.contact-divider::before,
+.contact-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
+}
+
+.contact-divider span {
+    padding: 0 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
 /* Animations */
@@ -736,5 +851,15 @@ footer {
         font-size: 0.8rem;
         padding: 10px 15px;
         max-width: 200px;
+    }
+
+    /* Form en móvil */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .contact-form {
+        padding: 0 10px;
     }
 }

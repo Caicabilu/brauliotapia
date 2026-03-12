@@ -28,4 +28,60 @@ window.addEventListener('scroll', () => {
     });
 });
 
+// Contact Form Handler
+const contactForm = document.getElementById('contact-form');
+const formMessage = document.getElementById('form-message');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+
+        // Show loading state
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        submitBtn.disabled = true;
+        formMessage.className = 'form-message';
+        formMessage.style.display = 'none';
+
+        const formData = {
+            name: contactForm.name.value,
+            email: contactForm.email.value,
+            subject: contactForm.subject.value,
+            message: contactForm.message.value
+        };
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                formMessage.textContent = '¡Mensaje enviado correctamente! Te responderé pronto.';
+                formMessage.className = 'form-message success';
+                contactForm.reset();
+            } else {
+                throw new Error(result.error || 'Error al enviar el mensaje');
+            }
+        } catch (error) {
+            formMessage.textContent = 'Error al enviar el mensaje. Por favor, intenta de nuevo.';
+            formMessage.className = 'form-message error';
+        } finally {
+            // Reset button state
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+            submitBtn.disabled = false;
+        }
+    });
+}
+
 console.log("Wind & Clouds Portfolio Loaded - Braulio Tapia");
