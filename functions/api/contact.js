@@ -1,9 +1,30 @@
+// Sanitize HTML to prevent XSS
+function sanitizeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// Validate email format
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
 export async function onRequestPost(context) {
     const { request, env } = context;
 
-    // CORS headers
+    // CORS headers - restricted to your domain
+    const allowedOrigins = ['https://brauliotapia.cl', 'https://www.brauliotapia.cl'];
+    const origin = request.headers.get('Origin');
+    const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
     const corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': corsOrigin,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
     };
@@ -15,6 +36,14 @@ export async function onRequestPost(context) {
         if (!name || !email || !subject || !message) {
             return new Response(
                 JSON.stringify({ error: 'Todos los campos son requeridos' }),
+                { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+            );
+        }
+
+        // Validate email format
+        if (!isValidEmail(email)) {
+            return new Response(
+                JSON.stringify({ error: 'El formato del email no es válido' }),
                 { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
             );
         }
@@ -51,21 +80,21 @@ export async function onRequestPost(context) {
             body: JSON.stringify({
                 from: 'Portfolio Contact <onboarding@resend.dev>',
                 to: ['gameplaysgenshinimpact1@gmail.com'],
-                subject: `[Portfolio] ${subject}`,
+                subject: `[Portfolio] ${sanitizeHtml(subject)}`,
                 html: `
                     <h2>Nuevo mensaje desde tu portfolio</h2>
-                    <p><strong>Nombre:</strong> ${name}</p>
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Asunto:</strong> ${subject}</p>
+                    <p><strong>Nombre:</strong> ${sanitizeHtml(name)}</p>
+                    <p><strong>Email:</strong> ${sanitizeHtml(email)}</p>
+                    <p><strong>Asunto:</strong> ${sanitizeHtml(subject)}</p>
                     <hr>
                     <p><strong>Mensaje:</strong></p>
-                    <p>${message.replace(/\n/g, '<br>')}</p>
+                    <p>${sanitizeHtml(message).replace(/\n/g, '<br>')}</p>
                     <hr>
                     <p style="color: #666; font-size: 12px;">
                         Este mensaje fue enviado desde el formulario de contacto de tu portfolio.
                     </p>
                 `,
-                reply_to: email
+                reply_to: sanitizeHtml(email)
             }),
         });
 
@@ -90,10 +119,15 @@ export async function onRequestPost(context) {
 }
 
 // Handle OPTIONS for CORS
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+    const { request } = context;
+    const allowedOrigins = ['https://brauliotapia.cl', 'https://www.brauliotapia.cl'];
+    const origin = request.headers.get('Origin');
+    const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
     return new Response(null, {
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': corsOrigin,
             'Access-Control-Allow-Methods': 'POST, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         },
