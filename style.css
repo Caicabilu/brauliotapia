@@ -299,6 +299,18 @@ h1 {
     font-weight: 600;
 }
 
+.philosophy-quote {
+    margin-top: 30px;
+    padding: 25px 30px;
+    background: rgba(0, 163, 255, 0.05);
+    border-left: 4px solid var(--primary);
+    border-radius: 0 16px 16px 0;
+    font-style: italic;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
 .experience-highlights {
     display: flex;
     justify-content: center;
